@@ -83,7 +83,7 @@ public class Practice14FlipboardView extends View {
 //        //画下部分
 //        canvas.save();
 //        camera.save();
-//        canvas.translate(centerX, centerY);
+//        canvas.translate(centerX, centerY);//这部分和下面没注释的写法不同，位移的顺序是相反的。这是因为camera和canvas不一样坐标系。是以谁为参照物。
 //        camera.rotateX(degree);
 //        camera.applyToCanvas(canvas);
 //        canvas.translate(-centerX, -centerY);
