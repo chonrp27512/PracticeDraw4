@@ -103,7 +103,7 @@ public class Practice14FlipboardView extends View {
         camera.restore();
 
         matrix.preTranslate(-centerX,-centerY);
-        matrix.postTranslate(centerX,centerY/2);
+        matrix.postTranslate(centerX,centerY/4);
 
         canvas.save();
         canvas.concat(matrix);
