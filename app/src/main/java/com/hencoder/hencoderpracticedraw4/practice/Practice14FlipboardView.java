@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Camera;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -19,6 +20,7 @@ public class Practice14FlipboardView extends View {
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Bitmap bitmap;
     Camera camera = new Camera();
+    Matrix matrix=new Matrix();
     int degree;
     ObjectAnimator animator = ObjectAnimator.ofInt(this, "degree", 0, 180);
 
@@ -72,16 +74,41 @@ public class Practice14FlipboardView extends View {
         int x = centerX - bitmapWidth / 2;
         int y = centerY - bitmapHeight / 2;
 
+        //画上部分
         canvas.save();
+        canvas.clipRect(0, 0, centerX * 2, centerY);
+        canvas.drawBitmap(bitmap, x, y, paint);
+        canvas.restore();
+
+//        //画下部分
+//        canvas.save();
+//        camera.save();
+//        canvas.translate(centerX, centerY);
+//        camera.rotateX(degree);
+//        camera.applyToCanvas(canvas);
+//        canvas.translate(-centerX, -centerY);
+//        camera.restore();
+//
+//        canvas.clipRect(0, centerY, centerX * 2, centerY * 2);
+//        canvas.drawBitmap(bitmap, x, y, paint);
+//        canvas.restore();
+
+
+
+        matrix.reset();
 
         camera.save();
         camera.rotateX(degree);
-        canvas.translate(centerX, centerY);
-        camera.applyToCanvas(canvas);
-        canvas.translate(-centerX, -centerY);
+        camera.getMatrix(matrix);
         camera.restore();
 
-        canvas.drawBitmap(bitmap, x, y, paint);
+        matrix.preTranslate(-centerX,-centerY);
+        matrix.postTranslate(centerX,centerY);
+
+        canvas.save();
+        canvas.concat(matrix);
+        canvas.clipRect(0,centerY,centerX*2,centerY*2);
+        canvas.drawBitmap(bitmap,x,y,paint);
         canvas.restore();
     }
 }

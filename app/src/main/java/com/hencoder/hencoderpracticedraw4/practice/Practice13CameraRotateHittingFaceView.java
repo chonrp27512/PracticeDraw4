@@ -23,7 +23,7 @@ public class Practice13CameraRotateHittingFaceView extends View {
     Point point = new Point(200, 50);
     Camera camera = new Camera();
     Matrix matrix = new Matrix();
-    int degree;
+    int degree1;
     ObjectAnimator animator = ObjectAnimator.ofInt(this, "degree", 0, 360);
 
     public Practice13CameraRotateHittingFaceView(Context context) {
@@ -61,9 +61,13 @@ public class Practice13CameraRotateHittingFaceView extends View {
         animator.end();
     }
 
+    /**
+     * ObjectAnimation的ofInt会查找当前this的类里面，根据参数2的名字生成的set/get方法，并设置到set方法里。
+     * @param degree
+     */
     @SuppressWarnings("unused")
     public void setDegree(int degree) {
-        this.degree = degree;
+        this.degree1 = degree;
         invalidate();
     }
 
@@ -76,16 +80,50 @@ public class Practice13CameraRotateHittingFaceView extends View {
         int centerX = point.x + bitmapWidth / 2;
         int centerY = point.y + bitmapHeight / 2;
 
+//        camera.save();
+//        matrix.reset();
+//        camera.rotateX(degree1);
+//        camera.getMatrix(matrix);
+//        camera.restore();
+//        matrix.preTranslate(-centerX, -centerY);
+//        matrix.postTranslate(centerX, centerY);
+//        canvas.save();
+//        canvas.concat(matrix);
+//        canvas.drawBitmap(bitmap, point.x, point.y, paint);
+//        canvas.restore();
+
+
+//        camera.save();
+//        matrix.reset();
+//        camera.rotateX(degree1);
+//        camera.getMatrix(matrix);
+//        camera.setLocation(0,0,-50);
+//        camera.restore();
+//
+//        matrix.preTranslate(-centerX,-centerY);
+//        matrix.postTranslate(centerX,centerY);
+//
+//        canvas.save();
+//        canvas.concat(matrix);
+//        canvas.drawBitmap(bitmap,point.x,point.y,paint);
+//        canvas.restore();
+
+
+
+
+
         camera.save();
-        matrix.reset();
-        camera.rotateX(degree);
-        camera.getMatrix(matrix);
+        camera.setLocation(0,0,-50);
+        camera.rotateX(degree1);
+        canvas.translate(centerX,centerY);
+        camera.applyToCanvas(canvas);
+        canvas.translate(-centerX,-centerY);
         camera.restore();
-        matrix.preTranslate(-centerX, -centerY);
-        matrix.postTranslate(centerX, centerY);
+
         canvas.save();
-        canvas.concat(matrix);
-        canvas.drawBitmap(bitmap, point.x, point.y, paint);
+        canvas.drawBitmap(bitmap,point.x,point.y,paint);
         canvas.restore();
+
+
     }
 }

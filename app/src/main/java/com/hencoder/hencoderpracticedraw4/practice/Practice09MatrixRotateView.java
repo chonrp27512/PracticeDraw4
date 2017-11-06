@@ -48,10 +48,12 @@ public class Practice09MatrixRotateView extends View {
         canvas.restore();
 
         matrix.reset();
-        float left = point2.x, top = point2.x, right = point2.x + 300, bottom = point2.y + 300;
 
-        float[] src = new float[]{left, top, right, bottom, left, bottom, right, top};
-        float[] dst = new float[]{left - 10, top + 90, right + 120, top, left+50, bottom+50, right-30, bottom+50};
+        paint.setAntiAlias(true);
+        float left = point2.x, top = point2.x, right = point2.x+100, bottom = point2.y+100;
+
+        float[] src = new float[]{left, top, right, top, left, bottom, right, bottom};
+        float[] dst = new float[]{left , top, right + 10, top+10, left, bottom, right, bottom-10};
         matrix.setPolyToPoly(src, 0, dst, 0, 4);
         canvas.concat(matrix);
         canvas.drawBitmap(bitmap, point2.x, point2.y, paint);
